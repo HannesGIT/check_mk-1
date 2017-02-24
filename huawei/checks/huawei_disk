@@ -21,16 +21,10 @@
 #
 
 def inventory_huawei_disk(info):
-    if opt_debug:
-        pprint.pprint(info)
     for line in info:
         yield line[0], { 'runningStatus': line[2], 'role': line[5], 'interfaceBandwidth': line[7], 'serial': line[12] }
 
 def check_huawei_disk(item, params, info):
-    if opt_debug:
-        print item
-        print params
-        print info
     for line in info:
         if line[0] == item:
             res = 0
@@ -60,7 +54,7 @@ def check_huawei_disk(item, params, info):
             msg += '; %s' % line[13]
 
             temp = saveint(line[8])
-            tempres, tempmsg, perfdata = check_temperature(temp, params)
+            tempres, tempmsg, perfdata = check_temperature(temp, params, 'huawei_disks_%s' % item)
             if tempres > res:
                 res = tempres
             msg += "; %s" % tempmsg
